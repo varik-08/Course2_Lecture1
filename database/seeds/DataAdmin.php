@@ -16,7 +16,7 @@ class DataAdmin extends Seeder
             'login' => 'admin',
             'name' => 'admin',
             'email' => 'admin@admin.ru',
-            'password' => Hash::make('admin'),
+            'password' => bcrypt('admin'),
         ]);
     }
 }
