@@ -13,7 +13,7 @@
 Auth::routes();
 
 Route::get('/', 'UserController@index');
-Route::post('/createOrder','UserController@CreateOrder')->name('CreateOrder');
+Route::post('/create-order','UserController@CreateOrder')->name('CreateOrder');
 Route::get('/orders', 'AdminController@Orders')->name('GetOrders')->middleware('auth');
 Route::get('/products', 'AdminController@Products')->name('GetProducts')->middleware('auth');
 Route::post('/products', 'AdminController@CreateProduct')->name('CreateProduct')->middleware('auth');
