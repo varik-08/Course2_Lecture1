@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\User;
 
-class Add_Admin extends Command
+class AddAdmin extends Command
 {
     /**
      * The name and signature of the console command.

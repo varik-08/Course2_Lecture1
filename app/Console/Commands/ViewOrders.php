@@ -6,14 +6,14 @@ use Illuminate\Console\Command;
 use App\Order;
 use App\Product;
 
-class View_Orders extends Command
+class ViewOrders extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'Admin:view_orders';
+    protected $signature = 'Admin:ViewOrders';
 
     /**
      * The console command description.
@@ -41,16 +41,15 @@ class View_Orders extends Command
     {
         $headers = ['Email', 'Phone', 'Product'];
         $orders = Order::all();
-        $i = 0;
+        $data = [];
 
         foreach ($orders as $order)
         {
-            $data[$i] = [
+            array_push($data, [
                 $order->email,
                 $order->phone,
                 $order->product()->withTrashed()->first()->name,
-            ];
-            $i++;
+            ]);
         }
         $this->table($headers, $data);
     }
