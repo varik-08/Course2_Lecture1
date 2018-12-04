@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Order;
 use App\Product;
+use http\Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -31,8 +33,12 @@ class AdminController extends Controller
 
     public function DeleteProduct($id)
     {
-        Product::find($id)->delete();
-        session()->flash('status','Продукт удален!');
+        $productName = Product::find($id)->name;
+        if(Product::find($id)->delete()){
+            Log::channel('deleted')->info($productName);
+            session()->flash('status','Продукт удален!');
+        }
+
         return redirect()->back();
     }
 }
