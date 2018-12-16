@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendEmails;
 use App\Mail\CreateOrder;
 use App\Order;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Queue;
 
 class UserController extends Controller
 {
@@ -18,14 +20,19 @@ class UserController extends Controller
 
     public function CreateOrder(Request $request)
     {
-        $order = Order::create([
+        $email = Order::where('email', $request->get('email'))->status(0)->value('email');
+
+        Order::create([
             'email' => $request->get('email'),
             'phone' => $request->get('phone'),
             'product_id' => $request->get('product_id'),
         ]);
 
-        Mail::to($order->email)->send(new CreateOrder($order->product()->withTrashed()->first()->name));
-        session()->flash('success','Спасибо за заказ');
+        if (!$email) {
+            SendEmails::dispatch($request->get('email'))->delay(3600);
+        }
+
+        session()->flash('success', 'Спасибо за заказ');
         return redirect()->back();
     }
 }
