@@ -10,13 +10,13 @@ class AdminController extends Controller
 {
     public function Orders()
     {
-        $orders = Order::paginate(5);
+        $orders = Order::simplePaginate(5);
         return view('orders.orders',compact('orders'));
     }
 
     public function Products()
     {
-        $products = Product::paginate(5);
+        $products = Product::simplePaginate(5);
         return view('products.products',compact('products'));
     }
 
