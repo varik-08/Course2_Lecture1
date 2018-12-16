@@ -81,6 +81,9 @@
             Привет друг!<br>
             Сделай заказ
         </div>
+
+        @user(1,name)
+
         <form action="{{route('CreateOrder')}}" method="post">
             @csrf
             <div class="main">
