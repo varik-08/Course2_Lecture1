@@ -18,4 +18,9 @@ class Order extends Model
     {
         return $query->where('status', $status);
     }
+
+    public function scopeEmail($query, $email)
+    {
+        return $query->where('email', $email);
+    }
 }

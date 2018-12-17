@@ -35,24 +35,18 @@ class SendEmails implements ShouldQueue
      */
     public function handle()
     {
-        $orders = Order::where('email', "varik-08@mail.ru")->status(0)->get();
-        $data = "Количество: " . $orders->count();
-        $data = $data . "\nТовары:\n";
-        $array = [];
+        $orders = Order::email($this->email)->status(0)->get();
+        $countProducts = $orders->count();
+        $products = [];
         foreach ($orders as $order) {
-            array_push($array, $order->product()->withTrashed()->first()->name);
-        }
-        foreach (array_unique($array) as $item) {
-            $data = $data . $item . "\n";
+            $products[] = $order->product()->withTrashed()->first()->name;
         }
 
-        Mail::to($this->email)->send(new CreateOrder($data));
+        Mail::to($this->email)->send(new CreateOrder($countProducts, array_unique($products)));
 
-        foreach ($orders as $order) {
-            $order->update([
-                'status' => 1,
-            ]);
-        }
+        $orders->map->update([
+            'status' => 1,
+        ]);
 
     }
 }
