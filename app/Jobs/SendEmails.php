@@ -42,9 +42,7 @@ class SendEmails implements ShouldQueue
             $products[] = $order->product()->withTrashed()->first()->name;
         }
 
-        $productsStr = implode("\n", array_unique($products));
-
-        Mail::to($this->email)->send(new CreateOrder($countProducts, $productsStr));
+        Mail::to($this->email)->send(new CreateOrder($countProducts, $products));
 
         $orders->map->update(array('status' => 1));
     }

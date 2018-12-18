@@ -29,7 +29,7 @@ class UserController extends Controller
         ]);
 
         if (!$email) {
-            SendEmails::dispatch($request->get('email'))->delay(3600);
+            SendEmails::dispatch($request->get('email'));//->delay(3600);
         }
 
         session()->flash('success', 'Спасибо за заказ');

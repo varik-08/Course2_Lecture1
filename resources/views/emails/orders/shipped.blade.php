@@ -1,3 +1,3 @@
 Спасибо за ваш заказ!
 Количество: {{$countProducts}}
-Товары: {{$products}}
+Товары: {{implode("\n", array_unique($products))}}
