@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Observers\ProductObserver;
+use App\Product;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use App\User;
@@ -17,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+
+        Product::observe(ProductObserver::class);
 
         Blade::directive('user', function ($arguments) {
             $id = $arguments;

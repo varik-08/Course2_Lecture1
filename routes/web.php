@@ -18,3 +18,4 @@ Route::get('/orders', 'AdminController@Orders')->name('GetOrders')->middleware('
 Route::get('/products', 'AdminController@Products')->name('GetProducts')->middleware('auth');
 Route::post('/products', 'AdminController@CreateProduct')->name('CreateProduct')->middleware('auth');
 Route::get('/product/delete/{id}', 'AdminController@DeleteProduct')->name('DeleteProduct')->middleware('auth');
+Route::get('/product/restore/{id}', 'AdminController@RestoreProduct')->name('RestoreProduct')->middleware('auth');

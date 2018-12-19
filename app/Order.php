@@ -23,4 +23,9 @@ class Order extends Model
     {
         return $query->where('email', $email);
     }
+
+    public function scopeProductGet($query, $product_id)
+    {
+        return $query->where('product_id', $product_id);
+    }
 }

@@ -23,7 +23,8 @@
                                 <tr>
                                     <td>{{$product->id}}</td>
                                     <td>{{$product->name}}</td>
-                                    <td><a href="{{route('DeleteProduct', $product->id)}}">Удалить</a></td>
+                                    <td>@if (!$product->deleted_at)<a href="{{route('DeleteProduct', $product->id)}}">Удалить</a>@else
+                                            <a href="{{route('RestoreProduct', $product->id)}}">Восстановить</a>@endif</td>
                                 </tr>
                             @endforeach
                         </table>

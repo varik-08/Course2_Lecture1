@@ -81,6 +81,11 @@ return [
             'driver' => 'single',
             'path' => storage_path('logs/deleted.log'),
         ],
+
+        'restored' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/restored.log'),
+        ],
     ],
 
 ];

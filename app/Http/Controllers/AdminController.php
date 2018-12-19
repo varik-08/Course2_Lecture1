@@ -18,7 +18,7 @@ class AdminController extends Controller
 
     public function Products()
     {
-        $products = Product::simplePaginate(5);
+        $products = Product::withTrashed()->simplePaginate(5);
         return view('products.products',compact('products'));
     }
 
@@ -37,6 +37,17 @@ class AdminController extends Controller
         if(Product::find($id)->delete()){
             Log::channel('deleted')->info($productName);
             session()->flash('status','Продукт удален!');
+        }
+
+        return redirect()->back();
+    }
+
+    public function RestoreProduct($id)
+    {
+        $productName = Product::withTrashed()->find($id)->name;
+        if(Product::withTrashed()->find($id)->restore()){
+            Log::channel('restored')->info($productName);
+            session()->flash('status','Продукт восстановлен!');
         }
 
         return redirect()->back();
