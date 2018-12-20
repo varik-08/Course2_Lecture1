@@ -39,11 +39,11 @@ class ProductObserver
      */
     public function deleted(Product $product)
     {
-        $orders = Order::productGet($product->id)->get()->toArray();
+        $orders = $product->orders()->get();
 
-        foreach (array_unique(array_column($orders, "email")) as $email)
+        foreach ($orders->unique('email') as $order)
         {
-            Mail::to($email)->send(new SendEmailEventProduct($product->name, "Удален"));
+            Mail::to($order->email)->send(new SendEmailEventProduct($product->name, "Удален"));
         }
     }
 
@@ -55,11 +55,11 @@ class ProductObserver
      */
     public function restored(Product $product)
     {
-        $orders = Order::productGet($product->id)->get()->toArray();
+        $orders = $product->orders()->get();
 
-        foreach (array_unique(array_column($orders, "email")) as $email)
+        foreach ($orders->unique('email') as $order)
         {
-            Mail::to($email)->send(new SendEmailEventProduct($product->name, "Восстановлен"));
+            Mail::to($order->email)->send(new SendEmailEventProduct($product->name, "Восстановлен"));
         }
     }
 

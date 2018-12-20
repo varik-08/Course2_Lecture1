@@ -1,3 +1,6 @@
 Спасибо за ваш заказ!
-Количество: {{$countProducts}}
-Товары: {{implode("\n", array_unique($products))}}
+Количество: {{$orders->count()}}
+Товары:
+@foreach ($orders->unique('product_id') as $order)
+    {{$order->product()->withTrashed()->first()->name}}
+@endforeach

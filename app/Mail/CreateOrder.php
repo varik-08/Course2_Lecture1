@@ -12,17 +12,15 @@ class CreateOrder extends Mailable
     use Queueable, SerializesModels;
 
     public $subject = 'Order';
-    public $countProducts;
-    public $products;
+    public $orders;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($countProducts, $products)
+    public function __construct($orders)
     {
-        $this->countProducts = $countProducts;
-        $this->products = $products;
+        $this->orders = $orders;
     }
 
     /**

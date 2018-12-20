@@ -36,13 +36,8 @@ class SendEmails implements ShouldQueue
     public function handle()
     {
         $orders = Order::email($this->email)->status(0)->get();
-        $countProducts = $orders->count();
-        $products = [];
-        foreach ($orders as $order) {
-            $products[] = $order->product()->withTrashed()->first()->name;
-        }
 
-        Mail::to($this->email)->send(new CreateOrder($countProducts, $products));
+        Mail::to($this->email)->send(new CreateOrder($orders));
 
         $orders->map->update(array('status' => 1));
     }
