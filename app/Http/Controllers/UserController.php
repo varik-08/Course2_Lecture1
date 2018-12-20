@@ -15,12 +15,9 @@ class UserController extends Controller
 {
     public function index()
     {
-        if (!Cache::has('products')) {
-            $products = Product::all();
-            Cache::forever('products', $products);
-        }
-        $products = Cache::get('products');
-
+        $products = Cache::rememberForever('products',function (){
+           return Product::all();
+        });
 
         return view('welcome', compact('products'));
     }

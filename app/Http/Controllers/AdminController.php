@@ -6,6 +6,7 @@ use App\Order;
 use App\Product;
 use http\Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
@@ -18,6 +19,9 @@ class AdminController extends Controller
 
     public function Products()
     {
+        /*$products = Cache::rememberForever('productsWithTrashed',function (){
+            return Product::withTrashed()->simplePaginate(5);
+        });*/
         $products = Product::withTrashed()->simplePaginate(5);
         return view('products.products',compact('products'));
     }

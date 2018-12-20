@@ -82,5 +82,7 @@ class ProductObserver
     {
         Cache::forget('products');
         Cache::forever('products', Product::all());
+        //Cache::forget('productsWithTrashed');
+        //Cache::forever('products', Product::withTrashed()->get());
     }
 }
