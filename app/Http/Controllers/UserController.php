@@ -7,6 +7,7 @@ use App\Mail\CreateOrder;
 use App\Order;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 
@@ -14,7 +15,13 @@ class UserController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
+        if (!Cache::has('products')) {
+            $products = Product::all();
+            Cache::forever('products', $products);
+        }
+        $products = Cache::get('products');
+
+
         return view('welcome', compact('products'));
     }
 

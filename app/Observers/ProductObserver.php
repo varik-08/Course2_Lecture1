@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Mail\SendEmailEventProduct;
 use App\Order;
 use App\Product;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 
 class ProductObserver
@@ -17,7 +18,7 @@ class ProductObserver
      */
     public function created(Product $product)
     {
-        //
+        $this->overwriteProductCache();
     }
 
     /**
@@ -40,11 +41,12 @@ class ProductObserver
     public function deleted(Product $product)
     {
         $orders = $product->orders()->get();
-
         foreach ($orders->unique('email') as $order)
         {
             Mail::to($order->email)->send(new SendEmailEventProduct($product->name, "Удален"));
         }
+
+        $this->overwriteProductCache();
     }
 
     /**
@@ -61,6 +63,8 @@ class ProductObserver
         {
             Mail::to($order->email)->send(new SendEmailEventProduct($product->name, "Восстановлен"));
         }
+
+        $this->overwriteProductCache();
     }
 
     /**
@@ -72,5 +76,11 @@ class ProductObserver
     public function forceDeleted(Product $product)
     {
         //
+    }
+
+    public function overwriteProductCache()
+    {
+        Cache::forget('products');
+        Cache::forever('products', Product::all());
     }
 }
